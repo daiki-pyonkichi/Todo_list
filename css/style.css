@@ -1,0 +1,735 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-color: #8ECAAF;  /* より明るいメインカラー */
+    --danger-color: #FFD1D1;   /* より明るい警告色 */
+    --warning-color: #FFE5D1;  /* より明るい注意色 */
+    --text-color: #5A5A5A;     /* テキストカラー */
+    --bg-color: #F0F5FF;       /* 薄い青色の背景 */
+    --card-bg: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+    --header-height: 120px;
+    
+    /* 締め切り日の色設定を更新：より明るいパステルカラー */
+    --deadline-expired: #4A4A4A;    /* 期限切れ：濃いグレー（黒→グレー） */
+    --deadline-today: #FF9E9E;      /* 当日：より明るい赤 */
+    --deadline-3days: #FFD1D1;      /* 3日以内：明るいピンク */
+    --deadline-7days: #FFE5D1;      /* 7日以内：明るいオレンジ */
+    --deadline-14days: #D1F0DB;     /* 14日以内：明るいグリーン */
+    --deadline-30days: #B7E4C7;     /* 30日以内：パステルグリーン */
+    --deadline-safe: #8ECAAF;       /* 30日以降：明るいグリーン */
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.app-container {
+    height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.header {
+    background-color: var(--card-bg);
+    padding: 2rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height);
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.date {
+    font-size: 1.3rem;
+    color: #666;
+}
+
+.clock,
+.logout-btn {
+    font-size: 1.2rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 10px;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
+    box-sizing: border-box;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    gap: 2.5rem;
+    min-height: 0;
+    height: calc(100vh - var(--header-height) - 6rem);
+}
+
+.form-container {
+    flex: 0 0 30%;
+    max-height: 100%;
+}
+
+.todo-form {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0.5rem;
+}
+
+.form-group label {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    display: block;
+    color: #444;
+}
+
+.required {
+    color: var(--danger-color);
+    margin-left: 0.2rem;
+}
+
+input[type="text"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 2px solid #E8E8E8;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: var(--transition);
+    background-color: #fff;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(142, 202, 175, 0.2);
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.error-message {
+    color: var(--danger-color);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    min-height: 1.2em;
+}
+
+.submit-btn {
+    position: relative;
+    z-index: 1;
+    padding: 1.2rem;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(142, 202, 175, 0.3);
+}
+
+.submit-btn:hover {
+    background-color: #7DB99E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(142, 202, 175, 0.4);
+}
+
+.btn-icon {
+    font-size: 1.4rem;
+}
+
+.list-container {
+    flex: 0 0 70%;
+    max-height: 100%;
+}
+
+.todo-list {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 95%;
+}
+
+.todo-item {
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: var(--card-bg);
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 6px solid var(--deadline-safe);
+}
+
+.todo-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.todo-item.expired {
+    border-left-color: var(--deadline-expired);
+}
+
+.todo-item.today {
+    border-left-color: var(--deadline-today);
+}
+
+.todo-item.days-3 {
+    border-left-color: var(--deadline-3days);
+}
+
+.todo-item.days-7 {
+    border-left-color: var(--deadline-7days);
+}
+
+.todo-item.days-14 {
+    border-left-color: var(--deadline-14days);
+}
+
+.todo-item.days-30 {
+    border-left-color: var(--deadline-30days);
+}
+
+.todo-content {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.todo-main {
+    font-size: 1.15rem;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.todo-detail {
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    display: none;
+}
+
+.todo-detail.visible {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.deadline {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    min-width: 120px;
+    text-align: center;
+    color: #fff;  /* デフォルトは白文字 */
+}
+
+.deadline.expired {
+    background-color: var(--deadline-expired);
+    color: #fff;
+}
+
+.deadline.today {
+    background-color: var(--deadline-today);
+    color: #4A4A4A;  /* 暗めの文字色 */
+}
+
+.deadline.days-3 {
+    background-color: var(--deadline-3days);
+    color: #4A4A4A;
+}
+
+.deadline.days-7 {
+    background-color: var(--deadline-7days);
+    color: #4A4A4A;
+}
+
+.deadline.days-14 {
+    background-color: var(--deadline-14days);
+    color: #4A4A4A;
+}
+
+.deadline.days-30 {
+    background-color: var(--deadline-30days);
+    color: #4A4A4A;
+}
+
+.deadline.safe {
+    background-color: var(--deadline-safe);
+    color: #4A4A4A;
+}
+
+.delete-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: #FF9E9E;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.delete-btn:hover {
+    background-color: #FF8A8A;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* スクロールバーのスタイル */
+.list-container::-webkit-scrollbar,
+.todo-form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.list-container::-webkit-scrollbar-track,
+.todo-form::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.list-container::-webkit-scrollbar-thumb,
+.todo-form::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.list-container::-webkit-scrollbar-thumb:hover,
+.todo-form::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logout-btn {
+    padding: 0.5rem 1rem;
+    background-color: #f44336;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+.date-input {
+    font-size: 1.1rem !important;
+    padding: 1rem !important;
+    cursor: pointer;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+}
+
+/* ログインフォームのスタイル改善 */
+.login-container {
+    max-width: 500px;
+    margin: 4rem auto;
+    padding: 2.5rem;
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.login-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    font-size: 2rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.login-form .form-group {
+    margin-bottom: 0.5rem;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    font-size: 1.1rem;
+    border: 2px solid #E8E8E8;
+    border-radius: 10px;
+    transition: var(--transition);
+}
+
+.login-form input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(142, 202, 175, 0.2);
+    outline: none;
+}
+
+.login-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 1rem;
+}
+
+.login-btn:hover {
+    background-color: #7DB99E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(142, 202, 175, 0.3);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* 通知バナーのスタイル */
+.notification-banner {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: slideDown 0.3s ease-out;
+}
+
+.notification-banner.success {
+    background-color: #E3F5E9;
+    border-left: 4px solid var(--primary-color);
+    color: #2D6A4F;
+}
+
+.notification-banner.error {
+    background-color: #FFE5E5;
+    border-left: 4px solid #FF4D4D;
+    color: #CC0000;
+}
+
+.notification-banner.warning {
+    background-color: #FFF4E5;
+    border-left: 4px solid #FFA726;
+    color: #E65100;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+/* メール認証関連のスタイル */
+.verification-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.verification-status.pending {
+    background-color: #FFF4E5;
+    color: #E65100;
+}
+
+.verification-status.verified {
+    background-color: #E3F5E9;
+    color: #2D6A4F;
+}
+
+/* スマートフォンサイズ（425px以下）でのレイアウト調整 */
+@media screen and (max-width: 425px) {
+  .app-container {
+    padding: 0.5rem;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 1rem 0.5rem;
+    gap: 0.5rem;
+  }
+  .header-left {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    display: flex;
+  }
+  .header-right {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    display: flex;
+  }
+  .header h1 {
+    font-size: 1.3rem;
+    margin-bottom: 0.2rem;
+  }
+  .date {
+    font-size: 1rem;
+  }
+  .clock {
+    font-size: 1.3rem;
+    min-width: 70px;
+    height: 2.6rem;
+    margin-right: 0;
+    padding: 0.3rem 0.7rem;
+  }
+  .logout-btn {
+    width: auto;
+    min-width: 70px;
+    font-size: 1rem;
+    padding: 0.3rem 0.7rem;
+    margin-top: 0.2rem;
+    align-self: flex-start;
+  }
+  .main-content {
+    flex-direction: column;
+    gap: 0.7rem;
+    height: auto;
+    min-height: 0;
+  }
+  .form-container, .list-container {
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
+    max-height: none;
+  }
+  .todo-list {
+    width: 100%;
+    padding: 0.5rem;
+  }
+  .todo-item {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+  .todo-main {
+    font-size: 1rem;
+  }
+  .submit-btn, .delete-btn {
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
+  .form-group label {
+    font-size: 1rem;
+  }
+  input[type="text"], input[type="date"], textarea {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
+}
+
+/* タブレットサイズ（1000px以下）でのレイアウト調整 */
+@media screen and (max-width: 1000px) {
+  .app-container {
+    padding: 0.5rem;
+    max-width: 100vw;
+    height: auto;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 1rem 0.5rem;
+    gap: 0.5rem;
+  }
+  .header-left {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+  .date {
+    font-size: 1.1rem;
+  }
+  .header-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .logout-btn {
+    width: auto;
+    min-width: 110px;
+    align-self: flex-start;
+    margin-top: 0.3rem;
+    font-size: 1.1rem;
+    padding: 0.5rem 1.2rem;
+  }
+  .clock {
+    font-size: 1.7rem;
+    min-width: 90px;
+    height: 2.2rem;
+    margin-right: 0.7rem;
+    padding: 0.4rem 1rem;
+  }
+  .main-content {
+    flex-direction: column;
+    gap: 1rem;
+    height: auto;
+    min-height: 0;
+  }
+  .form-container, .list-container {
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
+    max-height: none;
+  }
+  .todo-list {
+    width: 100%;
+    padding: 0.5rem;
+  }
+}
+
+/* タブレット・PC（426px以上） */
+@media screen and (min-width: 426px) {
+  .clock,
+  .logout-btn {
+    font-size: 1.2rem;
+    padding: 0.5rem 1.2rem;
+    height: 2.6rem;
+    min-width: 110px;
+  }
+}
+
+/* 時計の装飾をリッチに */
+.clock {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  background-color: rgba(76, 175, 80, 0.1);
+  padding: 0.5rem 1.2rem;
+  border-radius: 10px;
+  margin-right: 1rem;
+  box-shadow: 0 4px 12px rgba(142, 202, 175, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  height: 2.6rem;
+  box-sizing: border-box;
+} 
