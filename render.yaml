@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: todolist-app
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_CONNECTION
+        value: mysql 
