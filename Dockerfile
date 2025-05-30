@@ -1,7 +1,9 @@
 FROM php:8.2-apache
 
 # 必要なPHP拡張機能をインストール
-RUN docker-php-ext-install pdo pdo_mysql
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
 
 # Apacheの設定
 RUN a2enmod rewrite
