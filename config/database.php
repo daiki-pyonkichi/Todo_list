@@ -7,7 +7,7 @@ if ($db_url) {
     // PostgreSQLの場合
     $db_parts = parse_url($db_url);
     $db_host = $db_parts['host'];
-    $db_port = $db_parts['port'];
+    $db_port = isset($db_parts['port']) ? $db_parts['port'] : '5432'; // デフォルトのPostgreSQLポート
     $db_name = ltrim($db_parts['path'], '/');
     $db_user = $db_parts['user'];
     $db_pass = $db_parts['pass'];
@@ -38,5 +38,6 @@ try {
         ]
     );
 } catch (PDOException $e) {
+    error_log('Database connection error: ' . $e->getMessage());
     exit('データベース接続に失敗しました。' . $e->getMessage());
 } 
