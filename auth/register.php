@@ -42,15 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $token_expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
         // ユーザー登録
+        $is_verified = false;
         $stmt = $pdo->prepare('INSERT INTO users (name, email, password, verification_token, token_expires, is_verified) VALUES (?, ?, ?, ?, ?, ?)');
-        $stmt->execute([
-            $name,
-            $email,
-            password_hash($password, PASSWORD_DEFAULT),
-            $verification_token,
-            $token_expires,
-            false
-        ]);
+        $stmt->bindValue(1, $name, PDO::PARAM_STR);
+        $stmt->bindValue(2, $email, PDO::PARAM_STR);
+        $stmt->bindValue(3, password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
+        $stmt->bindValue(4, $verification_token, PDO::PARAM_STR);
+        $stmt->bindValue(5, $token_expires, PDO::PARAM_STR);
+        $stmt->bindValue(6, $is_verified, PDO::PARAM_BOOL);
+        $stmt->execute();
 
         // 認証メールを送信
         $verification_link = "http://{$_SERVER['HTTP_HOST']}/verify_email.php?token=" . $verification_token;
