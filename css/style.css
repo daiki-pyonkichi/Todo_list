@@ -162,6 +162,12 @@ textarea {
 }
 
 .submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    width: 100%;
+    box-sizing: border-box;
     position: relative;
     z-index: 1;
     padding: 1.2rem;
@@ -172,22 +178,25 @@ textarea {
     color: white;
     border: none;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
     transition: var(--transition);
     box-shadow: 0 4px 12px rgba(142, 202, 175, 0.3);
+}
+
+.btn-text {
+    display: inline-block;
+}
+
+.btn-icon {
+    display: inline-block;
+    font-size: 1.4rem;
+    line-height: 1;
+    margin-left: 0.2em;
 }
 
 .submit-btn:hover {
     background-color: #7DB99E;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(142, 202, 175, 0.4);
-}
-
-.btn-icon {
-    font-size: 1.4rem;
 }
 
 .list-container {
