@@ -42,13 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $token_expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
         // ユーザー登録
-        $stmt = $pdo->prepare('INSERT INTO users (name, email, password, verification_token, token_expires, is_verified) VALUES (?, ?, ?, ?, ?, 0)');
+        $stmt = $pdo->prepare('INSERT INTO users (name, email, password, verification_token, token_expires, is_verified) VALUES (?, ?, ?, ?, ?, ?)');
         $stmt->execute([
             $name,
             $email,
             password_hash($password, PASSWORD_DEFAULT),
             $verification_token,
-            $token_expires
+            $token_expires,
+            false
         ]);
 
         // 認証メールを送信
