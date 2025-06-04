@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../api/config.php';
+require_once '../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
